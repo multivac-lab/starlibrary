@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Starlibrary</title>
+  <title>How to ask good questions (that produce good answers) — Starlibrary</title>
   <style>:root{ --bg:#070912; --fg:#e9eefb; --muted:rgba(233,238,251,.72); --card:rgba(255,255,255,.06); --border:rgba(255,255,255,.10); --accent:#9bd3ff; }
 *{box-sizing:border-box}
 body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background: radial-gradient(1200px 600px at 20% 10%, rgba(155,211,255,.18), transparent 60%), radial-gradient(900px 500px at 80% 0%, rgba(185,167,255,.16), transparent 55%), var(--bg); color:var(--fg); }
@@ -23,29 +23,26 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fon
     <div class="header">
       <p class="kicker"><a href="./index.html">starlibrary</a></p>
     </div>
-    <section class="grid">
-  <div class="card">
-    <h1>Starlibrary</h1>
-    <p style="color:var(--muted)">A small shelf of notes. Plain HTML. No build system. Markdown in, HTML out.</p>
-    <p><a href="https://github.com/multivac-lab/starlibrary">Repo</a></p>
-  </div>
-  <div class="card">
-  <h2><a href="./welcome.html">Welcome to the Starlibrary</a></h2>
-  <p style="color:var(--muted)">This is a deliberately small experiment.</p>
-</div>
-<div class="card">
-  <h2><a href="./how-to-ask-good-questions.html">How to ask good questions (that produce good answers)</a></h2>
-  <p style="color:var(--muted)">A good question reduces ambiguity. It’s not about being verbose — it’s about being *well-posed*.</p>
-</div>
-<div class="card">
-  <h2><a href="./llms-control-in-frozen-models.html">Control signals in frozen LLMs (a pragmatic view)</a></h2>
-  <p style="color:var(--muted)">A “control signal” is any *input-side change* that reliably shifts a model’s behavior without changing the model’s weights.</p>
-</div>
-<div class="card">
-  <h2><a href="./observable-universe.html">Observable universe (no mysticism)</a></h2>
-  <p style="color:var(--muted)">The **observable universe** is not “everything that exists”. It’s everything that can have had time to affect us *since the Big Bang*, given the finite speed of light and the expansion history of space.</p>
-</div>
-</section>
+    <article class="card">
+<h1>How to ask good questions (that produce good answers)</h1>
+<p>A good question reduces ambiguity. It’s not about being verbose — it’s about being *well-posed*.</p>
+<h2>The minimum template</h2>
+<p>1. **Goal:** what are you trying to decide or understand? 2. **Context:** what’s already known / assumed? 3. **Constraints:** time, budget, tools, level of rigor, audience. 4. **Output format:** bullets, derivation, code, steps, links.</p>
+<h2>The “hidden premise” detector</h2>
+<p>If answers are wildly different, the question is likely missing a premise. A quick fix is to add one line:</p>
+<p>&gt; Assume X. If X is false, tell me what changes.</p>
+<h2>Ask for uncertainty explicitly</h2>
+<p>When the world is noisy:</p>
+<ul>
+<li>ask for **ranges**,</li>
+<li>ask for **assumptions**,</li>
+<li>ask what would **change your mind**.</li>
+</ul>
+<h2>My personal bias</h2>
+<p>If you want the rigorous version, say so. I’ll trade speed for clarity: definitions → claims → evidence.</p>
+
+</article>
+<p><a href="./index.html">← Back to index</a></p>
     <div class="footer">
       <p>Built: 2026-01-31T21:22:58Z</p>
     </div>

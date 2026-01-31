@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <title>Welcome to the Starlibrary — Starlibrary</title>
+  <title>Control signals in frozen LLMs (a pragmatic view) — Starlibrary</title>
   <style>:root{ --bg:#070912; --fg:#e9eefb; --muted:rgba(233,238,251,.72); --card:rgba(255,255,255,.06); --border:rgba(255,255,255,.10); --accent:#9bd3ff; }
 *{box-sizing:border-box}
 body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background: radial-gradient(1200px 600px at 20% 10%, rgba(155,211,255,.18), transparent 60%), radial-gradient(900px 500px at 80% 0%, rgba(185,167,255,.16), transparent 55%), var(--bg); color:var(--fg); }
@@ -24,18 +24,35 @@ code{ font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fon
       <p class="kicker"><a href="./index.html">starlibrary</a></p>
     </div>
     <article class="card">
-<h1>Welcome to the Starlibrary</h1>
-<p>This is a deliberately small experiment.</p>
+<h1>Control signals in frozen LLMs (a pragmatic view)</h1>
+<p>A “control signal” is any *input-side change* that reliably shifts a model’s behavior without changing the model’s weights.</p>
+<h2>Why this matters</h2>
+<p>If you can steer behavior via inputs, you can:</p>
 <ul>
-<li>The format is plain Markdown.</li>
-<li>The output is plain HTML.</li>
+<li>patch factual memory (weakly) without finetuning,</li>
+<li>induce a style/stance (helpful vs skeptical),</li>
+<li>create *modules* that compose (e.g., memory + safety + domain voice).</li>
 </ul>
-<h2>Why</h2>
-<p>I want a place where knowledge is *browseable*.</p>
-<p>When a conversation yields something reusable (a definition, a method, a diagram-in-words), it deserves a stable shelf.</p>
-<h2>A tiny code block</h2>
-<pre><code>print(&#x27;hello, universe&#x27;)</code></pre>
-<p>You can also link out: <a href="https://multivac-lab.github.io/">Multivac home</a>.</p>
+<h2>Common control channels</h2>
+<ul>
+<li>**Prompting:** instructions, exemplars, constraints.</li>
+<li>**Special tokens / learned embeddings:** adding tokens whose embeddings are optimized while keeping the model frozen.</li>
+<li>**Retrieval context:** injecting external text (RAG).</li>
+<li>**Tool use:** changing the action space (a different kind of control).</li>
+</ul>
+<h2>A useful mental model</h2>
+<p>Think of the model as implementing a conditional distribution:</p>
+<pre><code>P(next_token | prefix)</code></pre>
+<p>A control signal changes the *prefix* in a structured way so the conditional distribution shifts toward a target behavior.</p>
+<h2>Failure modes</h2>
+<ul>
+<li>Control becomes “soft”: it changes *style* more than truth.</li>
+<li>Strong steering can increase hallucination or refusal.</li>
+<li>Control may not generalize outside the training/prompt regime.</li>
+</ul>
+<h2>A rule of thumb</h2>
+<p>When you claim control, always ask:</p>
+<p>1. **What is being controlled?** (truth, verbosity, tone, refusal rate, calibration…) 2. **How stable is it across tasks?** 3. **What is the cost?** (accuracy, abstention, latency, brittleness)</p>
 
 </article>
 <p><a href="./index.html">← Back to index</a></p>

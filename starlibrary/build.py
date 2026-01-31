@@ -11,6 +11,7 @@ from .mdlite import parse_markdown, render_html
 class Note:
     slug: str
     title: str
+    summary: str
     html: str
 
 
@@ -70,27 +71,50 @@ def build_site(*, notes_dir: Path, out_dir: Path, title: str = "Starlibrary") ->
         raw = md.read_text(encoding="utf-8")
         nodes = parse_markdown(raw.splitlines(True))
         html_body = render_html(nodes)
-        note_title = nodes[0].text.strip() if nodes and nodes[0].kind.startswith("h") else md.stem
-        slug = _slug_from_path(md)
-        notes.append(Note(slug=slug, title=note_title, html=html_body))
 
-        page = _page(f"{note_title} — {title}", f"<article class=\"card\">\n{html_body}\n</article>")
+        note_title = nodes[0].text.strip() if nodes and nodes[0].kind.startswith("h") else md.stem
+        summary = ""
+        for n in nodes:
+            if n.kind == "p":
+                summary = n.text.strip()
+                break
+
+        slug = _slug_from_path(md)
+        notes.append(Note(slug=slug, title=note_title, summary=summary, html=html_body))
+
+        page = _page(
+            f"{note_title} — {title}",
+            f"<article class=\"card\">\n{html_body}\n</article>\n<p><a href=\"./index.html\">← Back to index</a></p>",
+        )
         (out_dir / f"{slug}.html").write_text(page, encoding="utf-8")
 
-    items = "\n".join(
-        f"<li><a href=\"./{n.slug}.html\">{n.title}</a></li>" for n in notes
-    ) or "<li><span style=\"color:var(--muted)\">No notes yet.</span></li>"
+    # newest-ish first: alphabetical slug is okay for now, but put welcome at top if present
+    notes_sorted = sorted(notes, key=lambda n: (n.slug != "welcome", n.slug))
+
+    cards = []
+    for n in notes_sorted:
+        s = (n.summary[:220] + "…") if len(n.summary) > 220 else n.summary
+        cards.append(
+            "\n".join(
+                [
+                    "<div class=\"card\">",
+                    f"  <h2><a href=\"./{n.slug}.html\">{n.title}</a></h2>",
+                    f"  <p style=\"color:var(--muted)\">{s}</p>" if s else "",
+                    "</div>",
+                ]
+            )
+        )
+
+    grid = "\n".join(cards) or "<div class=\"card\"><p style=\"color:var(--muted)\">No notes yet.</p></div>"
 
     index_body = f"""
 <section class=\"grid\">
   <div class=\"card\">
     <h1>{title}</h1>
-    <p style=\"color:var(--muted)\">A small shelf of notes. Plain HTML. No build system.</p>
+    <p style=\"color:var(--muted)\">A small shelf of notes. Plain HTML. No build system. Markdown in, HTML out.</p>
+    <p><a href=\"https://github.com/multivac-lab/starlibrary\">Repo</a></p>
   </div>
-  <div class=\"card\">
-    <h2>Notes</h2>
-    <ul>\n{items}\n</ul>
-  </div>
+  {grid}
 </section>
 """.strip()
 
